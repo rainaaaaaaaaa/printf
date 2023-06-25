@@ -3,6 +3,25 @@
 #include "main.h"
 
 /**
+ * print_number - Prints an integer recursively.
+ * @n: The integer to print.
+ *
+ * Return: The number of digits printed.
+ */
+int print_number(int n)
+{
+    int count = 0;
+
+    if (n / 10)
+        count += print_number(n / 10);
+
+    putchar((n % 10) + '0');
+    count++;
+
+    return count;
+}
+
+/**
  * _printf - Produces output according to a format.
  * @format: A character string containing zero or more directives.
  *
@@ -53,7 +72,6 @@ int _printf(const char *format, ...)
                 case 'i':
                 {
                     int num = va_arg(args, int);
-                    int divisor = 1;
 
                     if (num < 0)
                     {
@@ -62,15 +80,7 @@ int _printf(const char *format, ...)
                         num = -num;
                     }
 
-                    while (num / divisor > 9)
-                        divisor *= 10;
-
-                    while (divisor != 0)
-                    {
-                        putchar((num / divisor) % 10 + '0');
-                        count++;
-                        divisor /= 10;
-                    }
+                    count += print_number(num);
                     break;
                 }
                 case '%':
